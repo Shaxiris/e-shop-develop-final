@@ -1,0 +1,42 @@
+{% extends 'catalog/base.html' %}
+{% load blog_custom_tags %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" action="" class="form-floating" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">Заголовок публикации</label>
+                    <input type="text" class="form-control" id="title" name="title"
+                           aria-describedby="title" value="{{ object.title }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="content" class="form-label">Текст публикации</label>
+                    {% with content=object.content|default:"Поделитесь новостью!" %}
+                        <textarea class="form-control" id="content" name="content" rows="3"
+                                  aria-describedby="content">{{ content }}</textarea>
+                    {% endwith %}
+                </div>
+
+                <div class="mb-3">
+                  <label for="image" class="form-label">Загрузите иллюстрацию</label>
+                  <input class="form-control file-input" type="file" id="image" name="image" onchange="displayImage(this)">
+                </div>
+                <div class="mb-3 image-container">
+                  {% with img=object.image.url|default:'/media/blog/default.jpg' %}
+                      <img id="uploadedImage" class="example-image" src="{{ img }}" style="display: block;" />
+                      <button type="button" class="btn btn-danger" id="removeButton" onclick="removeImage()">Удалить изображение</button>
+                  {% endwith %}
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">{{ action }}</button>
+                <a href="{% url 'blog:unpublished_entries' %}" class="btn confirm-update mt-3">Передумать</a>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

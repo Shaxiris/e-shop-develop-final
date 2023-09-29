@@ -1,0 +1,20 @@
+{% extends 'catalog/base.html' %}
+{% load catalog_custom_tags %}
+{% block content %}
+<div class="container mt-4">
+    <!-- Заголовок сверху -->
+    <div class="row">
+        <div class="col-12">
+            <h1>{{ title }}</h1>
+        </div>
+    </div>
+<br>
+<br>
+    <!-- Карточки продуктов -->
+<div class="row">
+{% for product in product_list %}
+{% include 'catalog/includes/product_card.html' %}
+{% endfor %}
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+
+<!-- Заголовок сверху -->
+<div class="d-flex justify-content-start mt-5 ml-vw5">
+    <h1>Наши питомцы</h1>
+</div>
+<br>
+<!-- Карточки продуктов -->
+<div class="ml-vw5">
+    {% for product in product_list %}
+    {% include 'catalog/includes/product_card.html' %}
+    {% endfor %}
+</div>
+<br>
+<br>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'catalog/base.html' %}
+{% load catalog_custom_tags %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6">
+            <img src="{% mediapath product %}" class="img-fluid" alt="Изображение продукта">
+        </div>
+        <div class="col-lg-6">
+            <h2 class="display-4">{{ product.name }}</h2>
+            <p class="lead">{{ product.description }}</p>
+            <p class="h4">Цена: {{ product.price }} rub</p>
+            <p class="h4">Категория: {{ product.category }}</p>
+            <p class="h4">Владелец: {% if product.owner %}{{ product.owner }}{% else %}На общем попечении{% endif %}</p>
+            <p class="h4">Дата создания: {{ product.creation_date }}</p>
+            <p class="h4">Дата изменения: {{ product.change_date }}</p>
+            <p class="h4">Активная версия: {% if active_version %}{{ active_version.name }}{% else %}Не задана{% endif %}</p>
+        </div>
+    </div>
+
+    {% if active_version %}
+    <hr>
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <h4 class="display-5 text-center">Информация об активной версии</h4>
+            <div class="row justify-content-center">
+                <div class="col-4 text-right">
+                    <p class="lead">Название:</p>
+                </div>
+                <div class="col-4 text-left">
+                    <p class="lead">{{ active_version.name }}</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-4 text-right">
+                    <p class="lead">Номер версии:</p>
+                </div>
+                <div class="col-4 text-left">
+                    <p class="lead">{{ active_version.number }}</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-4 text-right">
+                    <p class="lead">Статус:</p>
+                </div>
+                <div class="col-4 text-left">
+                    <p class="lead">{{ active_version.status|yesno:"Активна,Не активна" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row centered-buttons">
+        <div class="button-center">
+            {% if user.is_authenticated and product.owner == user or user.is_superuser %}
+                <a href="{% url 'catalog:update_product' product.pk %}"  class="btn btn-primary btn-centered big-buttons">Изменить</a>
+            {% endif %}
+            <a href="{% url 'catalog:catalog' %}"  class="btn btn-primary confirm-update big-buttons">Вернуться к остальным</a>
+            {% if user.is_authenticated and product.owner == user or user.is_superuser %}
+                <a href="{% url 'catalog:delete_product' product.pk %}"  class="btn btn-primary confirm-danger big-buttons">Отпустить</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<br>
+<br>
+{% endblock %}

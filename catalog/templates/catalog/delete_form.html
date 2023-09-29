@@ -1,0 +1,27 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load catalog_custom_tags %}
+{% block content %}
+<div class="center-content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2 class="text-center">Подтвердите удаление</h2>
+                <p class="text-center">Вы уверены, что хотите отпустить на волю {{ object.name }}?</p>
+
+                <div class="mb-3 d-flex justify-content-center">
+                    <img id="uploadedImage" class="example-image" src="{% mediapath product %}" style="display: block;" />
+                </div>
+
+                <form method="post" action="" class="text-center">
+                    {% csrf_token %}
+                    <div class="btn-group mt-3" role="group">
+                        <button type="submit" class="btn confirm-button confirm-danger">Отпустить</button>
+                        <a href="{% url 'catalog:catalog' %}" class="btn confirm-button confirm-primary">Передумать</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+.description-content, .description-content.parent {
+    margin-left: 0;
+    padding-left: 0;
+}
+.hidden-description {
+    display: none;  /* по умолчанию скрываем */
+}
+.description-content {
+    box-sizing: border-box;
+    max-width: 400px; /* или любое другое значение на ваше усмотрение */
+    overflow-wrap: break-word; /* перенос строк */
+    white-space: normal; /* убедитесь, что текст переносится на новые строки */
+}
+.description-wrapper {
+    position: relative;
+    width: 400px;  /* Та же ширина, что и у .description-content, чтобы убедиться, что все выровнено */
+    padding-top: 30px;  /* Пространство для кнопки. Может потребоваться настройка в зависимости от размера кнопки */
+}
+
+.toggle-description {
+    position: absolute;
+    top: 0;
+    left: 0;
+}

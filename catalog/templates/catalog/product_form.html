@@ -1,0 +1,62 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load catalog_custom_tags %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" action="" class="form-floating" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <br>
+                            <div class="error" style="color: #d51616;">
+                                {{ field.errors.0 }}
+                            </div>
+                        <hr>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {{ formset.management_form }}
+                {% for subform in formset %}
+
+                    {% for hidden in subform.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                    {% for field in subform %}
+                        {% if not field.name == "id" and not field.name == "product" %}
+                            {% if field.field.widget.input_type == "checkbox" %}
+                                <div class="form-group d-flex align-items-center justify-content-start">
+                                    <label for="{{ field.id_for_label }}" class="mr-2">{{ field.label }}:</label>
+                                    {{ field }}
+                                </div>
+                            {% else %}
+                                <div class="form-group">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                    <br>
+                                        <div class="error" style="color: #d51616;">
+                                            {{ field.errors.0 }}
+                                        </div>
+                                    <hr>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                <button type="submit" class="btn btn-primary mt-3">{{ action }}</button>
+                <a href="{% url 'catalog:catalog' %}" class="btn confirm-update mt-3">Передумать</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

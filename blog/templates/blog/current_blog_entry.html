@@ -1,0 +1,35 @@
+{% extends 'catalog/base.html' %}
+{% load blog_custom_tags %}
+{% block content %}
+<div class="d-flex justify-content-center flex-column align-items-center">
+    <div class="card" style="width: 50rem; position: relative;">
+        <img src="{% mediapath object %}" class="card-img-top" alt="...">
+        <div class="small-text text-muted text-right mb-13">{{ object.creation_date }}</div>
+        <div class="card-body">
+            <h5 class="card-title">{{ object.title }}</h5>
+            <p class="card-title">slug: {{ object.slug }}</p>
+            <div class="card-text">{{ object.content|linebreaks }}</div>
+            {% if object.author %}
+                <div class="text-muted mb-3">Автор: {{ object.author }}</div>
+            {% endif %}
+
+            {% if object.is_published %}
+            <a href="{% url 'blog:blog' %}" class="btn confirm-primary">Вернуться к записям</a>
+
+            {% else %}
+            <a href="{% url 'blog:unpublished_entries' %}" class="btn confirm-primary">Вернуться к записям</a>
+
+            {% if user.is_authenticated and object.author == user or user.is_superuser %}
+                <a href="{% url 'blog:update_entry' object.slug %}" class="btn confirm-primary">Изменить</a>
+                <a href="{% url 'blog:delete_entry' object.slug %}" class="btn confirm-danger">Удалить</a>
+            {% endif %}
+
+            {% endif %}
+
+        </div>
+        <div class="card-footer-text">
+            Просмотров {{ object.number_views }}
+        </div>
+    </div>
+</div>
+{% endblock %}

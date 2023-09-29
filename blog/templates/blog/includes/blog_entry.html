@@ -1,0 +1,19 @@
+{% load blog_custom_tags %}
+<div class="card" style="width: 50rem; position: relative;">
+    <img src="{% mediapath object %}" class="card-img-top" alt="...">
+    <div class="small-text text-muted text-right mb-13">{{ object.creation_date }}</div>
+    <div class="card-body">
+        <h5 class="card-title">{{ object.title }}</h5>
+        <div class="card-text">{{ object.content|linebreaks }}</div>
+        {% if object.author %}
+            <div class="text-muted mb-3">Автор: {{ object.author }}</div>
+        {% endif %}
+        <a href="{% url 'blog:blog_entry' object.slug %}" class="btn btn-primary">К записи</a>
+        {% if user.is_authenticated and object.author == user or user.is_superuser %}
+            <a href="{% url 'blog:publish' object.slug %}" class="btn btn-primary">{{ button_text }}</a>
+        {% endif %}
+    </div>
+    <div class="card-footer-text">
+        Просмотров {{ object.number_views }}
+    </div>
+</div>

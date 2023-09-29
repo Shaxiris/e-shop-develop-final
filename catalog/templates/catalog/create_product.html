@@ -1,0 +1,51 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" action="" class="form-floating" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Имя питомца</label>
+                    <input type="text" class="form-control" id="name" name="name" aria-describedby="name">
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Описание</label>
+                    <input type="text" class="form-control" id="description" name="description" aria-describedby="description">
+                </div>
+
+                <div class="mb-3">
+                    <label for="category" class="form-label"></label>
+                    <select class="form-select" id="category" name="category" aria-label="category">
+                        <option>Выберите категорию</option>
+
+                        {% for category in category_list %}
+                        <option value="{{ category.id }}" {% if category.id == selected_category_id %} selected {% endif %}>
+                            {{ category }}
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Стоимость</label>
+                    <input type="number" class="form-control" id="price" name="price" aria-describedby="description" min="0" step="0.01">
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Загрузите изображение</label>
+                    <input class="form-control file-input" type="file" id="image" name="image">
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">Отправить</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
